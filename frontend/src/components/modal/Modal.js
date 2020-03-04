@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { addItem } from "../../redux/items/item.action";
 import "./modal.scss";
 
-const Modal = ({ show, clicked, addNewItem }) => {
+const Modal = ({ show, clicked, addNewItem, isAuth, token }) => {
   const [heading, setHeading] = useState("");
   const [detail, setDetail] = useState("");
 
@@ -21,17 +22,17 @@ const Modal = ({ show, clicked, addNewItem }) => {
     if (!heading || !detail) {
       return alert("Work is empty !");
     }
-    const item = { heading: heading, detail: detail };
-    console.log(item);
-    addNewItem(item);
+    const item = { heading, detail };
+    addNewItem(token, item);
     clicked();
   };
 
   return (
     <div className={`modal ${show ? "modal__show" : "modal__hide"}`}>
-      <h2>Add new stuff</h2>
+      {isAuth ? null : <Redirect to="/login" />}
+      <p>Add new stuff</p>
       <form>
-        <label>heading</label>
+        <label style={{ marginRight: "20px" }}>Title</label>
         <input type="text" name="heading" onChange={onHandleInput} />
         <br />
         <br />
@@ -45,8 +46,13 @@ const Modal = ({ show, clicked, addNewItem }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  addNewItem: item => dispatch(addItem(item))
+const mapStateToProps = state => ({
+  token: state.auth.token,
+  isAuth: state.auth.token != null
 });
 
-export default connect(null, mapDispatchToProps)(Modal);
+const mapDispatchToProps = dispatch => ({
+  addNewItem: (token, item) => dispatch(addItem(token, item))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import "./card.scss";
-import Header from "../header/Header";
-import Item from "../item/Item";
-import Modal from "../modal/Modal";
+import { fetchItems } from "../../redux/items/item.action";
 import Backdrop from "../backdrop/Backdrop";
+import Header from "../header/Header";
+import Modal from "../modal/Modal";
+import Item from "../item/Item";
+import "./card.scss";
 
-const Card = ({ items }) => {
+const Card = ({ items, token, onFetchItems }) => {
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    onFetchItems(token);
+  }, [onFetchItems, token]);
 
   const onShowModal = () => {
     setShowModal(true);
@@ -22,9 +27,10 @@ const Card = ({ items }) => {
     <>
       <div className="card">
         <Header />
+        {console.log(items)}
         <div className="card__main">
           {items.map(item => (
-            <Item key={item.heading} item={item} />
+            <Item key={item._id} item={item} />
           ))}
         </div>
         <button className="card__btn-add" onClick={onShowModal}>
@@ -37,10 +43,13 @@ const Card = ({ items }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    items: state.items.listItems
-  };
-};
+const mapStateToProps = state => ({
+  token: state.auth.token,
+  items: state.items.listItems
+});
 
-export default connect(mapStateToProps)(Card);
+const mapDispatchToProps = dispatch => ({
+  onFetchItems: token => dispatch(fetchItems(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

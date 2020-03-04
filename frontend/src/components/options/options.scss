@@ -1,9 +1,10 @@
 .options {
   align-self: flex-end;
   margin-bottom: 4px;
+
   .option {
     padding: 6px;
-    margin-left: 6px;
+    margin-left: 2px;
     color: white;
     font-size: 14px;
     font-weight: bold;
@@ -12,11 +13,16 @@
     cursor: pointer;
 
     &__edit {
-      color: rgb(3, 201, 207);
+      color: rgb(245, 190, 10);
     }
 
     &__delete {
       color: rgb(238, 3, 3);
     }
+  }
+
+  label {
+    color: rgb(3, 201, 207);
+    margin-left: 5px;
   }
 }

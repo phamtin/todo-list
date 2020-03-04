@@ -4,8 +4,8 @@
   flex-direction: column;
   width: 500px;
   height: 300px;
-  padding: 30px;
-  background-color: powderblue;
+  padding: 35px;
+  background-color: rgb(253, 253, 253);
 
   &__hide {
     display: none;
@@ -15,14 +15,16 @@
     display: block;
   }
 
-  h2 {
-    font-family: Segoe UI;
-    text-transform: uppercase;
+  p {
+    font-family: "Roboto";
+    font-size: 26px;
     margin: 0 auto 20px auto;
+    color: rgb(26, 69, 199);
   }
 
   label {
-    font-family: Segoe UI;
+    font-family: "Roboto";
+    font-weight: bold;
     margin-right: 10px;
   }
 
@@ -30,7 +32,6 @@
     width: 60%;
     height: 36px;
     padding: 0 10px;
-    border-radius: 3px;
     border: 1px solid black;
   }
 
