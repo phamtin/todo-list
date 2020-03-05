@@ -1,21 +1,24 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-import { removeItem } from "../../redux/items/item.action";
-import Options from "../options/Options";
-import "./item.scss";
+import { removeItem, changeToEditMode } from '../../redux/items/item.action';
+import Options from '../options/Options';
+import './item.scss';
 
-const Item = ({ item, onDeleteItem }) => {
+const Item = ({ item, showModal, onDeleteItem, token, onEditMode }) => {
   const [isDOne, setIsDOne] = useState(false);
 
-  const onEdit = () => {};
   const onDone = () => setIsDOne(!isDOne);
-  const onDelete = () => onDeleteItem(item);
+  const onDelete = () => onDeleteItem(token, item);
+  const onEdit = () => {
+    onEditMode('edit');
+    showModal(item);
+  };
 
   return (
     <div className="item">
       <div className="content">
-        <h3 className={`${isDOne ? "done" : null}`}>{item.heading}</h3>
+        <h3 className={`${isDOne ? 'done' : null}`}>{item.heading}</h3>
         <p className="description"> {item.detail} </p>
       </div>
       <div className="options">
@@ -26,7 +29,12 @@ const Item = ({ item, onDeleteItem }) => {
 };
 
 const mapDispatchToProp = dispatch => ({
-  onDeleteItem: item => dispatch(removeItem(item))
+  onDeleteItem: (token, item) => dispatch(removeItem(token, item)),
+  onEditMode: mode => dispatch(changeToEditMode(mode)),
 });
 
-export default connect(null, mapDispatchToProp)(Item);
+const mapStateToProps = state => ({
+  token: state.auth.token,
+});
+
+export default connect(mapStateToProps, mapDispatchToProp)(Item);

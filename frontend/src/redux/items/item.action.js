@@ -1,18 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
-import * as actionType from "./items.type";
+import * as actionType from './items.type';
 
 export const fetchItems = token => {
   const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
   return dispatch => {
-    let items = null;
-    console.log("get: " + token);
     axios
-      .get("http://127.0.0.1:9000/panel", {
-        headers: headers
+      .get('http://127.0.0.1:9000/panel', {
+        headers: headers,
       })
       .then(res => dispatch(fetchItemsSuccess(res.data.data.items)))
       .catch(e => console.log(e));
@@ -21,19 +18,18 @@ export const fetchItems = token => {
 
 export const fetchItemsSuccess = items => ({
   type: actionType.FETCH_DATA_SUCCESS,
-  payload: items
+  payload: items,
 });
 
 export const addItem = (token, item) => {
   const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
   return dispatch =>
     axios
-      .post("http://127.0.0.1:9000/panel", item, {
+      .post('http://127.0.0.1:9000/panel', item, {
         data: item,
-        headers: headers
+        headers: headers,
       })
       .then(res => dispatch(addItemSuccess(res.data.data.item)))
       .catch(e => console.log(e));
@@ -41,10 +37,47 @@ export const addItem = (token, item) => {
 
 export const addItemSuccess = item => ({
   type: actionType.ADD_ITEM_SUCCESS,
-  payload: item
+  payload: item,
 });
 
-export const removeItem = item => ({
-  type: actionType.REMOVE_ITEM,
-  payload: item
+export const removeItem = (token, item) => {
+  return dispatch => {
+    axios
+      .delete('http://127.0.0.1:9000/panel', {
+        data: item,
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(res => dispatch(removeItemSuccess(item)))
+      .catch(e => console.log(e));
+  };
+};
+
+export const removeItemSuccess = item => ({
+  type: actionType.REMOVE_ITEM_SUCCESS,
+  payload: item,
+});
+
+export const editItem = (token, idItem, data) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  return dispatch =>
+    axios
+      .patch('http://127.0.0.1:9000/panel', {
+        idItem,
+        data,
+        headers: headers,
+      })
+      .then(res => dispatch(editItemSuccess(res.data.data.data)))
+      .catch(e => console.log(e));
+};
+
+export const editItemSuccess = item => ({
+  type: actionType.EDIT_ITEM_SUCCESS,
+  payload: item,
+});
+
+export const changeToEditMode = mode => ({
+  type: actionType.EDIT_MODE,
+  payload: mode,
 });

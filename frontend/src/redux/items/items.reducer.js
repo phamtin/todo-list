@@ -1,7 +1,9 @@
-import * as actionType from "./items.type";
+import * as actionType from './items.type';
+import { handleUpdate } from './item.utils';
 
 const INITIAL_STATE = {
-  listItems: []
+  listItems: [],
+  isEditMode: false,
 };
 
 const itemReducer = (state = INITIAL_STATE, action) => {
@@ -9,19 +11,29 @@ const itemReducer = (state = INITIAL_STATE, action) => {
     case actionType.ADD_ITEM_SUCCESS:
       return {
         ...state,
-        listItems: state.listItems.concat(action.payload)
+        listItems: state.listItems.concat(action.payload),
       };
-    case actionType.REMOVE_ITEM:
+    case actionType.REMOVE_ITEM_SUCCESS:
       return {
         ...state,
         listItems: state.listItems.filter(
-          item => item._id !== action.payload._id
-        )
+          item => item._id !== action.payload._id,
+        ),
       };
     case actionType.FETCH_DATA_SUCCESS:
       return {
         ...state,
-        listItems: [...action.payload]
+        listItems: [...action.payload],
+      };
+    case actionType.EDIT_ITEM_SUCCESS:
+      return {
+        ...state,
+        listItems: handleUpdate(state.listItems, action.payload),
+      };
+    case actionType.EDIT_MODE:
+      return {
+        ...state,
+        isEditMode: action.payload === 'edit' ? true : false,
       };
     default:
       return state;

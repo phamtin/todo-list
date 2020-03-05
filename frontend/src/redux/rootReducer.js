@@ -1,18 +1,18 @@
-import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-import itemReducer from "./items/items.reducer";
-import authReducer from "./auth/auth.reducer";
+import itemReducer from './items/items.reducer';
+import authReducer from './auth/auth.reducer';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
-  whitelist: []
+  whitelist: ['auth'],
 };
 const rootReducer = combineReducers({
   items: itemReducer,
-  auth: authReducer
+  auth: authReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
