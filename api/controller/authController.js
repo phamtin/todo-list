@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 const AppError = require('../utils/AppError');
-const User = require('../model/userModel');
+import { User } from '../model/userModel';
 
 exports.login = async (req, res, next) => {
   const { email } = req.body;

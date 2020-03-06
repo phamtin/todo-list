@@ -29,6 +29,7 @@ function App({ isAuth }) {
 }
 
 const mapStateToProps = state => ({
+  state: state,
   isAuth: state.auth.token !== null,
 });
 

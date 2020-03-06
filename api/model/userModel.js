@@ -8,17 +8,15 @@ const userSchema = new mongoose.Schema(
       required: [true, 'required'],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, 'provide correct email']
+      validate: [validator.isEmail, 'provide correct email'],
     },
     password: {
       type: String,
       required: [true, 'password is empty'],
-      minlength: 6
-    }
+      minlength: 6,
+    },
   },
-  { collection: 'User' }
+  { collection: 'User' },
 );
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+export const User = mongoose.model('User', userSchema);

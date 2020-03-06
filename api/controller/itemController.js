@@ -1,21 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const AppError = require('../utils/AppError');
-const Item = require('../model/itemModel');
+const { Item } = require('../model/itemModel');
 
 exports.getItems = async (req, res, next) => {
-  // let token;
-  // if (
-  //   req.headers.authorization &&
-  //   req.headers.authorization.startsWith('Bearer')
-  // ) {
-  //   token = req.headers.authorization.split(' ')[1];
-  // }
-  // if (!token) {
-  //   return next(new AppError('Log in to access.', 401));
-  // }
-  // const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const items = await Item.find({ userBelongTo: req.user.id });
+  const query = Item.find({ userBelongTo: req.user.id }).sort('-createdAt');
+  const items = await query;
   res.status(200).json({
     status: 'success',
     result: items.lenth,

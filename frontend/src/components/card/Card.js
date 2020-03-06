@@ -28,9 +28,7 @@ const Card = ({ items, token, onFetchItems, onEditMode }) => {
     setShowModal(true);
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
+  const closeModal = () => setShowModal(false);
 
   return (
     <>

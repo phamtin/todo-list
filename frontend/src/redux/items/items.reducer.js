@@ -11,7 +11,7 @@ const itemReducer = (state = INITIAL_STATE, action) => {
     case actionType.ADD_ITEM_SUCCESS:
       return {
         ...state,
-        listItems: state.listItems.concat(action.payload),
+        listItems: [action.payload, ...state.listItems],
       };
     case actionType.REMOVE_ITEM_SUCCESS:
       return {

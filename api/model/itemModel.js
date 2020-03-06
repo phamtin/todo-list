@@ -7,6 +7,11 @@ const itemSchema = new mongoose.Schema(
       required: [true, 'Task must have a heading'],
     },
     detail: String,
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      select: false,
+    },
     userBelongTo: {
       type: mongoose.Schema.ObjectId,
     },
@@ -14,6 +19,4 @@ const itemSchema = new mongoose.Schema(
   { collection: 'Items' },
 );
 
-const Item = mongoose.model('Items', itemSchema);
-
-module.exports = Item;
+export const Item = mongoose.model('Items', itemSchema);
