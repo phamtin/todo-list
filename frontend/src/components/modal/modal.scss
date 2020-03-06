@@ -6,6 +6,13 @@
   height: 300px;
   padding: 35px;
   background-color: rgb(253, 253, 253);
+  border-radius: 12px;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    height: 250px;
+    padding: 15px;
+  }
 
   &__hide {
     display: none;
@@ -16,14 +23,14 @@
   }
 
   p {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-size: 26px;
     margin: 0 auto 20px auto;
-    color: rgb(26, 69, 199);
+    color: #50b7d1;
   }
 
   label {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: bold;
     margin-right: 10px;
   }
@@ -32,7 +39,11 @@
     width: 60%;
     height: 36px;
     padding: 0 10px;
-    border: 1px solid black;
+    border: 1px solid rgb(71, 71, 71);
+
+    @media (max-width: 576px) {
+      width: 80%;
+    }
   }
 
   button {
@@ -40,8 +51,8 @@
     height: 35px;
     margin-top: 30px;
     color: white;
-    background-color: royalblue;
+    background-color: rgb(126, 188, 218);
     outline: 0;
-    border: 3px solid rgb(26, 69, 199);
+    border: 3px solid#50b7d1;
   }
 }

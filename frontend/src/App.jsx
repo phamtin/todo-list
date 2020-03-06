@@ -1,9 +1,10 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React from 'react';
+import 'antd/dist/antd.css';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Card from "./components/card/Card";
-import Login from "./page/login/Login";
-import { connect } from "react-redux";
+import Card from './components/card/Card';
+import Login from './page/login/Login';
+import { connect } from 'react-redux';
 
 function App({ isAuth }) {
   if (isAuth) {
@@ -28,7 +29,7 @@ function App({ isAuth }) {
 }
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.token !== null
+  isAuth: state.auth.token !== null,
 });
 
 export default connect(mapStateToProps)(App);

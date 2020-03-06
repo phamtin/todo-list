@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import "./options.scss";
+import './options.scss';
 
 const Options = ({ edit, del, done }) => {
   const deleteItem = () => del();
@@ -15,12 +15,12 @@ const Options = ({ edit, del, done }) => {
         defaultChecked={false}
         onChange={doneItem}
       ></input>
-      <label>done</label>
+      <span>Done</span>
       <button className="option option__edit" onClick={editItem}>
-        edit
+        Edit
       </button>
       <button className="option option__delete" onClick={deleteItem}>
-        delete
+        Delete
       </button>
     </div>
   );

@@ -1,22 +1,21 @@
-const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const AppError = require('../utils/AppError');
 const Item = require('../model/itemModel');
 
 exports.getItems = async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-  if (!token) {
-    return next(new AppError('Log in to access.', 401));
-  }
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const items = await Item.find({ userBelongTo: decoded.id });
+  // let token;
+  // if (
+  //   req.headers.authorization &&
+  //   req.headers.authorization.startsWith('Bearer')
+  // ) {
+  //   token = req.headers.authorization.split(' ')[1];
+  // }
+  // if (!token) {
+  //   return next(new AppError('Log in to access.', 401));
+  // }
+  // const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const items = await Item.find({ userBelongTo: req.user.id });
   res.status(200).json({
     status: 'success',
     result: items.lenth,
@@ -26,18 +25,7 @@ exports.getItems = async (req, res, next) => {
 };
 
 exports.createItems = async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-  if (!token) {
-    return next(new AppError('Log in to access.', 401));
-  }
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const item = await Item.create({ ...req.body, userBelongTo: decoded.id });
+  const item = await Item.create({ ...req.body, userBelongTo: req.user.id });
   if (!item) {
     return next(new AppError('items not found', 404));
   }
@@ -48,7 +36,7 @@ exports.createItems = async (req, res, next) => {
 };
 
 exports.deleteItem = async (req, res, next) => {
-  const doc = await Item.findOneAndDelete(req.body._id);
+  const doc = await Item.findOneAndDelete(req.body);
   if (!doc) {
     return next(new AppError('No document found', 404));
   }
@@ -56,7 +44,6 @@ exports.deleteItem = async (req, res, next) => {
     status: 'success',
     data: null,
   });
-  return false;
 };
 
 exports.updateItem = async (req, res, next) => {
@@ -64,11 +51,9 @@ exports.updateItem = async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-
   if (!doc) {
     return next(new AppError('No document found with that ID', 404));
   }
-
   console.log(doc);
   res.status(200).json({
     status: 'success',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Empty } from 'antd';
 
 import { fetchItems, changeToEditMode } from '../../redux/items/item.action';
 import Backdrop from '../backdrop/Backdrop';
@@ -35,11 +36,16 @@ const Card = ({ items, token, onFetchItems, onEditMode }) => {
     <>
       <div className="card">
         <Header />
-        {console.log(items)}
         <div className="card__main">
-          {items.map(item => (
-            <Item key={item._id} item={item} showModal={onShowModalEdit} />
-          ))}
+          {items.length !== 0 ? (
+            items.map(item => (
+              <Item key={item._id} item={item} showModal={onShowModalEdit} />
+            ))
+          ) : (
+            <div className="empty-icon">
+              <Empty description="Want to busy?" />
+            </div>
+          )}
         </div>
         <button className="card__btn-add" onClick={onShowModalAdd}>
           <span>+</span>

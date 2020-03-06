@@ -5,24 +5,18 @@
   .option {
     padding: 6px;
     margin-left: 2px;
-    color: white;
+    color: black;
     font-size: 14px;
-    font-weight: bold;
     background: 0;
     border: 0;
     cursor: pointer;
 
-    &__edit {
-      color: rgb(245, 190, 10);
-    }
-
     &__delete {
-      color: rgb(238, 3, 3);
+      color: red;
     }
   }
 
   label {
-    color: rgb(3, 201, 207);
     margin-left: 5px;
   }
 }

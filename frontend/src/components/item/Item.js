@@ -9,7 +9,9 @@ const Item = ({ item, showModal, onDeleteItem, token, onEditMode }) => {
   const [isDOne, setIsDOne] = useState(false);
 
   const onDone = () => setIsDOne(!isDOne);
-  const onDelete = () => onDeleteItem(token, item);
+  const onDelete = () => {
+    onDeleteItem(token, item);
+  };
   const onEdit = () => {
     onEditMode('edit');
     showModal(item);
