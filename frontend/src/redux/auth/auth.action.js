@@ -9,7 +9,7 @@ export const auth = (email, password) => {
     axios
       .post('http://127.0.0.1:9000/login', authData)
       .then(res => dispatch(authSuccess(res.data.token)))
-      .catch(e => alert('Wrong password, try again!'));
+      .catch(e => alert('Wrong password'));
   };
 };
 

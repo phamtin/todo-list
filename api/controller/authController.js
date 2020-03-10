@@ -2,11 +2,10 @@ import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
 import AppError from '../utils/AppError';
-import { User } from '../model/userModel';
+import User from '../model/userModel';
 
 export const login = async (req, res, next) => {
-  const { email, password } = req.body;
-
+  const { email, password } = req.dataUser.value;
   const user = await User.findOne({ email });
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
