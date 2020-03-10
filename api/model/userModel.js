@@ -19,4 +19,10 @@ const userSchema = new mongoose.Schema(
   { collection: 'User' },
 );
 
-export const User = mongoose.model('User', userSchema);
+userSchema.methods.correctPassword = function(candidatePassword, userPassword) {
+  return candidatePassword === userPassword;
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

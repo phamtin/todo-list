@@ -1,11 +1,8 @@
-const jwt = require('jsonwebtoken');
+import AppError from '../utils/AppError';
+import { Item } from '../model/itemModel';
 
-const AppError = require('../utils/AppError');
-const { Item } = require('../model/itemModel');
-
-exports.getItems = async (req, res, next) => {
-  const query = Item.find({ userBelongTo: req.user.id }).sort('-createdAt');
-  const items = await query;
+export const getItems = async (req, res, next) => {
+  const items = await Item.find({ userBelongTo: req.user.id }).sort('-_id');
   res.status(200).json({
     status: 'success',
     result: items.lenth,
@@ -14,7 +11,7 @@ exports.getItems = async (req, res, next) => {
   return false;
 };
 
-exports.createItems = async (req, res, next) => {
+export const createItems = async (req, res, next) => {
   const item = await Item.create({ ...req.body, userBelongTo: req.user.id });
   if (!item) {
     return next(new AppError('items not found', 404));
@@ -25,8 +22,11 @@ exports.createItems = async (req, res, next) => {
   });
 };
 
-exports.deleteItem = async (req, res, next) => {
-  const doc = await Item.findOneAndDelete(req.body);
+export const deleteItem = async (req, res, next) => {
+  let doc;
+  if (req.body.userBelongTo === req.user._id.toString()) {
+    doc = await Item.findOneAndDelete(req.body);
+  }
   if (!doc) {
     return next(new AppError('No document found', 404));
   }
@@ -36,11 +36,15 @@ exports.deleteItem = async (req, res, next) => {
   });
 };
 
-exports.updateItem = async (req, res, next) => {
-  const doc = await Item.findByIdAndUpdate(req.body.idItem, req.body.data, {
-    new: true,
-    runValidators: true,
-  });
+export const updateItem = async (req, res, next) => {
+  const doc = await Item.findByIdAndUpdate(
+    req.body.data.idItem,
+    req.body.data.data,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
   if (!doc) {
     return next(new AppError('No document found with that ID', 404));
   }

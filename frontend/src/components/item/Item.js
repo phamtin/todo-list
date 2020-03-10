@@ -1,29 +1,27 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Checkbox } from 'antd';
 
 import { removeItem, changeToEditMode } from '../../redux/items/item.action';
 import Options from '../options/Options';
 import './item.scss';
 
-const Item = ({ item, showModal, onDeleteItem, token, onEditMode }) => {
+const Item = ({ item, showModal, onDeleteItem, token }) => {
   const [isDOne, setIsDOne] = useState(false);
 
+  const onEdit = () => showModal(item);
   const onDone = () => setIsDOne(!isDOne);
-  const onDelete = () => {
-    onDeleteItem(token, item);
-  };
-  const onEdit = () => {
-    onEditMode('edit');
-    showModal(item);
-  };
+  const doneItem = () => setIsDOne(!isDOne);
+  const onDelete = () => onDeleteItem(token, item);
 
   return (
     <div className="item">
-      <div className="content">
+      <Checkbox onChange={doneItem} />
+      <div className="content" onClick={() => onEdit(item)}>
         <h3 className={`${isDOne ? 'done' : null}`}>{item.heading}</h3>
-        <p className="description"> {item.detail} </p>
+        <p className={`description ${isDOne ? 'done' : null}`}>{item.detail}</p>
       </div>
-      <div className="options">
+      <div className="options-list">
         <Options edit={onEdit} del={onDelete} done={onDone} />
       </div>
     </div>

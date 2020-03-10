@@ -1,12 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { logout } from "../../redux/auth/auth.action";
-import "./signout.scss";
+import { logout } from '../../redux/auth/auth.action';
+import { emptyList } from '../../redux/items/item.action';
+import './signout.scss';
 
-const Signout = ({ onLogout }) => {
-  const logout = () => onLogout();
-
+const Signout = ({ onLogout, onEmptyList }) => {
+  const logout = () => {
+    onEmptyList();
+    onLogout();
+  };
   return (
     <div className="btn-signout" onClick={logout}>
       <img src="logout.png" alt="signout" />
@@ -16,7 +19,8 @@ const Signout = ({ onLogout }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onLogout: () => dispatch(logout())
+  onEmptyList: () => dispatch(emptyList()),
+  onLogout: () => dispatch(logout()),
 });
 
 export default connect(null, mapDispatchToProps)(Signout);

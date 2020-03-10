@@ -1,15 +1,15 @@
-const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 
-const AppError = require('../utils/AppError');
+import AppError from '../utils/AppError';
 import { User } from '../model/userModel';
 
-exports.login = async (req, res, next) => {
-  const { email } = req.body;
+export const login = async (req, res, next) => {
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) {
-    return next(new AppError('Wrong password, Plz try again', 401));
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError('Incorrect email or password', 401));
   }
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -21,7 +21,7 @@ exports.login = async (req, res, next) => {
   return false;
 };
 
-exports.checkUser = async (req, res, next) => {
+export const checkUser = async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&

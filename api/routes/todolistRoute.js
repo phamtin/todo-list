@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 
-const authController = require('../controller/authController');
-const itemController = require('../controller/itemController');
+import * as authController from '../controller/authController';
+import * as itemController from '../controller/itemController';
 
 const route = express.Router();
 
@@ -10,6 +10,6 @@ route
   .get(authController.checkUser, itemController.getItems)
   .post(authController.checkUser, itemController.createItems)
   .patch(itemController.updateItem)
-  .delete(itemController.deleteItem);
+  .delete(authController.checkUser, itemController.deleteItem);
 
-module.exports = route;
+export default route;

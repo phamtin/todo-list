@@ -1,5 +1,4 @@
 .options {
-  align-self: flex-end;
   margin-bottom: 0;
 
   .option {
@@ -10,10 +9,6 @@
     background: 0;
     border: 0;
     cursor: pointer;
-
-    &__delete {
-      color: red;
-    }
   }
 
   label {

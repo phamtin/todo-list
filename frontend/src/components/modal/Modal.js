@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Form, Input, Button, Col } from 'antd';
 
 import { addItem, editItem } from '../../redux/items/item.action';
 import './modal.scss';
@@ -19,11 +20,25 @@ const Modal = ({
   const [detail, setDetail] = useState('');
 
   useEffect(() => {
-    if (content) {
-      setHeading(content.heading);
-      setDetail(content.detail);
-    }
+    const { heading, detail } = content;
+    setHeading(heading);
+    setDetail(detail);
   }, [content]);
+
+  const layout = {
+    labelCol: {
+      span: 5,
+    },
+    wrapperCol: {
+      span: 16,
+    },
+  };
+  const buttonLayout = {
+    wrapperCol: {
+      offset: 5,
+      span: 16,
+    },
+  };
 
   const onHandleInput = e => {
     if (e.target.name === 'heading') {
@@ -33,11 +48,7 @@ const Modal = ({
     }
   };
 
-  const onSubmitForm = e => {
-    e.preventDefault();
-    if (!heading || !detail) {
-      return alert('Work is empty !');
-    }
+  const onSubmitForm = values => {
     const item = { heading, detail };
     if (isEdit) {
       const { _id } = content;
@@ -55,28 +66,31 @@ const Modal = ({
   return (
     <div className={`modal ${show ? 'modal__show' : 'modal__hide'}`}>
       {isAuth ? null : <Redirect to="/login" />}
-      <p>Add new stuff</p>
-      <form>
-        <label style={{ marginRight: '20px' }}>Title</label>
-        <input
-          type="text"
-          name="heading"
-          onChange={onHandleInput}
-          value={heading}
-        />
-        <br />
-        <br />
-        <label>Detail</label>
-        <input
-          type="text"
-          name="detail"
-          onChange={onHandleInput}
-          value={detail}
-        />
-      </form>
-      <button type="submit" onClick={onSubmitForm}>
-        Add
-      </button>
+      <Col offset={5}>
+        <p>Add new stuff</p>
+      </Col>
+      <Form {...layout} onFinish={onSubmitForm}>
+        <Form.Item
+          label="Heading"
+          rules={[
+            {
+              required: true,
+              message: 'Please input heading!',
+            },
+          ]}
+        >
+          <Input onChange={onHandleInput} value={heading} name="heading" />
+        </Form.Item>
+        <Form.Item label="Detail">
+          <Input name="detail" value={detail} onChange={onHandleInput} />
+        </Form.Item>
+
+        <Form.Item {...buttonLayout}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-const AppError = require('../utils/AppError');
+import AppError from '../utils/AppError';
 import User from '../model/userModel';
 
-exports.getUser = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
   const user = await User.findById(req.params.id);
   if (!user) {
     return next(new AppError('user not found', 404));

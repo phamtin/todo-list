@@ -41,11 +41,14 @@ export const addItemSuccess = item => ({
 });
 
 export const removeItem = (token, item) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
   return dispatch => {
     axios
       .delete('http://127.0.0.1:9000/panel', {
         data: item,
-        headers: { Authorization: `Bearer ${token}` },
+        headers: headers,
       })
       .then(res => dispatch(removeItemSuccess(item)))
       .catch(e => console.log(e));
@@ -58,14 +61,13 @@ export const removeItemSuccess = item => ({
 });
 
 export const editItem = (token, idItem, data) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const headers = { Authorization: `Bearer ${token}` };
+  const dataEdit = { idItem, data };
+  console.log(dataEdit.data);
   return dispatch =>
     axios
       .patch('http://127.0.0.1:9000/panel', {
-        idItem,
-        data,
+        data: dataEdit,
         headers: headers,
       })
       .then(res => dispatch(editItemSuccess(res.data.data.data)))
@@ -80,4 +82,8 @@ export const editItemSuccess = item => ({
 export const changeToEditMode = mode => ({
   type: actionType.EDIT_MODE,
   payload: mode,
+});
+
+export const emptyList = () => ({
+  type: actionType.EMPTY_LIST,
 });

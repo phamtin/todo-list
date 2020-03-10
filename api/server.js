@@ -1,37 +1,37 @@
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
-process.on("uncaughtException", error => {
+process.on('uncaughtException', error => {
   console.log(error.name, error.message);
-  console.log("uncaught Exception, Shutting down...");
+  console.log('uncaught Exception, Shutting down...');
   process.exit(1);
 });
 
-dotenv.config({ path: "./config.env" });
-const app = require("./app");
+dotenv.config({ path: './config.env' });
+import app from './app';
 
 const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
 );
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("connect successfully");
+    console.log('connect successfully');
   });
 
 const port = process.env.PORT || 9000;
 const server = app.listen(port, () => {
-  console.log("Application is running...");
+  console.log('Application is running...');
 });
-process.on("unhandledRejection", error => {
+process.on('unhandledRejection', error => {
   console.log(error.name, error.message);
-  console.log("unhandled Rejection, Shutting down...");
+  console.log('unhandled Rejection, Shutting down...');
   server.close(() => {
     process.exit(1);
   });

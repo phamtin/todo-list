@@ -6,3 +6,4 @@ export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
 export const EDIT_ITEM = 'EDIT_ITEM';
 export const EDIT_ITEM_SUCCESS = 'EDIT_ITEM_SUCCESS';
 export const EDIT_MODE = 'EDIT_MODE';
+export const EMPTY_LIST = 'EMPTY_LIST';

@@ -9,7 +9,7 @@ import Modal from '../modal/Modal';
 import Item from '../item/Item';
 import './card.scss';
 
-const Card = ({ items, token, onFetchItems, onEditMode }) => {
+const Card = ({ items, token, onFetchItems, onMode }) => {
   const [showModal, setShowModal] = useState(false);
   const [content, setContent] = useState({});
 
@@ -18,14 +18,15 @@ const Card = ({ items, token, onFetchItems, onEditMode }) => {
   }, [onFetchItems, token]);
 
   const onShowModalEdit = item => {
-    setContent(item);
     setShowModal(true);
+    onMode('edit');
+    setContent(item);
   };
 
   const onShowModalAdd = () => {
-    onEditMode('add');
-    setContent({ heading: '', detail: '' });
     setShowModal(true);
+    onMode('add');
+    setContent({ heading: '', detail: '' });
   };
 
   const closeModal = () => setShowModal(false);
@@ -62,7 +63,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onFetchItems: token => dispatch(fetchItems(token)),
-  onEditMode: mode => dispatch(changeToEditMode(mode)),
+  onMode: mode => dispatch(changeToEditMode(mode)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Card);

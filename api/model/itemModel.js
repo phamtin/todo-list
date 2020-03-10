@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const itemSchema = new mongoose.Schema(
   {
@@ -7,16 +7,11 @@ const itemSchema = new mongoose.Schema(
       required: [true, 'Task must have a heading'],
     },
     detail: String,
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-      select: false,
-    },
     userBelongTo: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
     },
   },
-  { collection: 'Items' },
+  { timestamps: true, collection: 'Items' },
 );
 
 export const Item = mongoose.model('Items', itemSchema);

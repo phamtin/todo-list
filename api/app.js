@@ -1,13 +1,13 @@
 import express from 'express';
 
+import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import xss from 'xss-clean';
-import cors from 'cors';
 import mongoSanitize from 'express-mongo-sanitize';
 
-const userRoutes = require('./routes/userRoute');
-const todolistRoute = require('./routes/todolistRoute');
+import userRoutes from './routes/userRoute';
+import todolistRoute from './routes/todolistRoute';
 
 const app = express();
 
@@ -24,11 +24,13 @@ app.use(mongoSanitize());
 app.use(xss());
 
 app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Headers', 'Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
     'Authorization',
+    'Access-Control-Allow-Methods ',
+    'Origin, X-Requested-With, Content-Type, Accept',
   );
   next();
 });
@@ -38,4 +40,4 @@ app.use('/', userRoutes);
 app.use('/panel', todolistRoute);
 // app.use(errorHandler);
 
-module.exports = app;
+export default app;

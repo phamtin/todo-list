@@ -26,33 +26,6 @@
     font-family: 'Roboto';
     font-size: 26px;
     margin: 0 auto 20px auto;
-    color: #78afbe;
-  }
-
-  label {
-    font-family: 'Roboto';
-    font-weight: bold;
-    margin-right: 10px;
-  }
-
-  input {
-    width: 60%;
-    height: 36px;
-    padding: 0 10px;
-    border: 1px solid rgb(71, 71, 71);
-
-    @media (max-width: 576px) {
-      width: 80%;
-    }
-  }
-
-  button {
-    width: 90px;
-    height: 35px;
-    margin-top: 30px;
-    color: white;
-    background-color: rgb(126, 188, 218);
-    outline: 0;
-    border: 3px solid#50b7d1;
+    color: #2997f1;
   }
 }

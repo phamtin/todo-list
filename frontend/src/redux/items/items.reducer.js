@@ -35,6 +35,11 @@ const itemReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isEditMode: action.payload === 'edit' ? true : false,
       };
+    case actionType.EMPTY_LIST:
+      return {
+        ...state,
+        listItems: [],
+      };
     default:
       return state;
   }

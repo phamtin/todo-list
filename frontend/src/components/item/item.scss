@@ -1,7 +1,8 @@
 .item {
   display: flex;
   justify-content: space-between;
-  height: 80px;
+  align-items: center;
+  height: 70px;
   margin-bottom: 11px;
   padding: 0 15px;
   background-color: rgb(246, 247, 248);
@@ -22,9 +23,15 @@
   }
 
   .content {
-    width: 50%;
+    width: 70%;
+    cursor: pointer;
+
     &::-webkit-scrollbar {
       display: none !important;
     }
+  }
+
+  .description {
+    margin-bottom: 0;
   }
 }
