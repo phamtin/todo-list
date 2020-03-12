@@ -25,10 +25,11 @@ mongoose
     console.log('connect successfully');
   });
 
-const port = process.env.PORT || 9000;
+export const port = process.env.PORT || 9000;
 const server = app.listen(port, () => {
   console.log('Application is running...');
 });
+
 process.on('unhandledRejection', error => {
   console.log(error.name, error.message);
   console.log('unhandled Rejection, Shutting down...');

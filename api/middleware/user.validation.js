@@ -1,10 +1,9 @@
-import AppError from '../utils/AppError';
-
 export const validation = (schema, prop) => (req, res, next) => {
   const { value, error } = schema.validate(req[prop]);
   if (error) {
-    return next(new AppError('invalid email or password', 401));
+    return res.status(401).json({
+      error: 'Invalid email or password !',
+    });
   }
-  req.dataUser = { value };
   next();
 };
