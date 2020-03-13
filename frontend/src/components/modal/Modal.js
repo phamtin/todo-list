@@ -79,7 +79,12 @@ const Modal = ({
             },
           ]}
         >
-          <Input onChange={onHandleInput} value={heading} name="heading" />
+          <Input
+            onChange={onHandleInput}
+            value={heading}
+            name="heading"
+            required
+          />
         </Form.Item>
         <Form.Item label="Detail">
           <Input name="detail" value={detail} onChange={onHandleInput} />

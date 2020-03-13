@@ -1,20 +1,30 @@
-import axios from 'axios';
-
+import HttpService from '../../utils/HttpService';
+import basePath from '../../utils/axios';
 import * as actionType from './items.type';
 
 export const fetchItems = token => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const httpService = new HttpService();
   return dispatch => {
-    axios
-      .get('http://127.0.0.1:9000/panel', {
-        headers: headers,
-      })
-      .then(res => dispatch(fetchItemsSuccess(res.data.data.items)))
-      .catch(e => console.log(e));
+    httpService.get('/panel', response => {
+      console.log(response);
+      dispatch(fetchItemsSuccess(response.data.data.items));
+    });
   };
 };
+
+// export const fetchItems = token => {
+//   const headers = {
+//     Authorization: `Bearer ${token}`,
+//   };
+//   return dispatch => {
+//     basePath
+//       .get('panel', {
+//         headers: headers,
+//       })
+//       .then(res => dispatch(fetchItemsSuccess(res.data.data.items)))
+//       .catch(e => console.log(e));
+//   };
+// };
 
 export const fetchItemsSuccess = items => ({
   type: actionType.FETCH_DATA_SUCCESS,
@@ -22,17 +32,11 @@ export const fetchItemsSuccess = items => ({
 });
 
 export const addItem = (token, item) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const httpService = new HttpService();
   return dispatch =>
-    axios
-      .post('http://127.0.0.1:9000/panel', item, {
-        data: item,
-        headers: headers,
-      })
-      .then(res => dispatch(addItemSuccess(res.data.data.item)))
-      .catch(e => console.log(e));
+    httpService.post('/panel', item, response => {
+      dispatch(addItemSuccess(response.data.data.item));
+    });
 };
 
 export const addItemSuccess = item => ({
@@ -41,17 +45,12 @@ export const addItemSuccess = item => ({
 });
 
 export const removeItem = (token, item) => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const httpService = new HttpService();
   return dispatch => {
-    axios
-      .delete('http://127.0.0.1:9000/panel', {
-        data: item,
-        headers: headers,
-      })
-      .then(res => dispatch(removeItemSuccess(item)))
-      .catch(e => console.log(e));
+    httpService.delete('/panel', item, response => {
+      console.log(response);
+      dispatch(removeItemSuccess(item));
+    });
   };
 };
 
@@ -61,17 +60,12 @@ export const removeItemSuccess = item => ({
 });
 
 export const editItem = (token, idItem, data) => {
-  const headers = { Authorization: `Bearer ${token}` };
+  const httpService = new HttpService();
   const dataEdit = { idItem, data };
-  console.log(dataEdit.data);
   return dispatch =>
-    axios
-      .patch('http://127.0.0.1:9000/panel', {
-        data: dataEdit,
-        headers: headers,
-      })
-      .then(res => dispatch(editItemSuccess(res.data.data.data)))
-      .catch(e => console.log(e));
+    httpService.patch('/panel', dataEdit, response => {
+      dispatch(editItemSuccess(response.data.data.data));
+    });
 };
 
 export const editItemSuccess = item => ({

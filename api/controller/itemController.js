@@ -37,14 +37,11 @@ export const deleteItem = async (req, res, next) => {
 };
 
 export const updateItem = async (req, res, next) => {
-  const doc = await Item.findByIdAndUpdate(
-    req.body.data.idItem,
-    req.body.data.data,
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
+  console.log(req.body);
+  const doc = await Item.findByIdAndUpdate(req.body.idItem, req.body.data, {
+    new: true,
+    runValidators: true,
+  });
   if (!doc) {
     return next(new AppError('No document found with that ID', 404));
   }
