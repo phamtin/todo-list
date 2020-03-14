@@ -7,9 +7,10 @@ jobs:
       name: node/default
     steps:
       - checkout
-
-      - run: cd api && npm install
-      - run: cd api && npm test
+      - node/with-cache:
+          steps:
+            - run: cd api && npm install
+            - run: cd api && npm test
 workflows:
   build-and-test:
     jobs:
